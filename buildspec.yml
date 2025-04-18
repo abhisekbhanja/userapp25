@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto17  # Or corretto11 / openjdk17 based on your app
+    commands:
+      - echo Installing dependencies...
+      - mvn install -DskipTests=true
+
+  build:
+    commands:
+      - echo Building the Spring Boot application...
+      - mvn package -DskipTests=true
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mkdir -p output
+      - cp target/*.jar output/
+
+artifacts:
+  files:
+    - output/*.jar
+  discard-paths: yes
